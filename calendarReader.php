@@ -8,11 +8,16 @@
 
 class CalendarReader {
 
+    private static $fridayString = "Friday";
+    private static $saturdayString = "Saturday";
+    private static $sundayString = "Sunday";
+
     public function readCalendars($calendarsPage) {
         $calendarOwnerPages = $this->getCalendarPaths($calendarsPage);
         $persons = $this->getCalendarInfo($calendarOwnerPages);
-        $this->findAvailableDay($persons);
 
+
+        return $this->findAvailableDay($persons);
     }
 
     /**
@@ -118,28 +123,32 @@ class CalendarReader {
         foreach ($persons as $person) {
             /* @var $entry CalendarEntry */
             foreach ($person->getCalendarEntries() as $entry) {
-                if ($entry->getDay() === "Friday" && $entry->getIsAvailable() === false) {
+                if ($entry->getDay() === self::$fridayString && $entry->getIsAvailable() === false) {
                     $isFridayAvailable = false;
                 }
-                if ($entry->getDay() === "Saturday" && $entry->getIsAvailable() === false) {
+                if ($entry->getDay() === self::$saturdayString && $entry->getIsAvailable() === false) {
                     $isSaturdayAvailable = false;
                 }
-                if ($entry->getDay() === "Sunday" && $entry->getIsAvailable() === false) {
+                if ($entry->getDay() === self::$sundayString && $entry->getIsAvailable() === false) {
                     $isSundayAvailable = false;
                 }
             }
         }
 
+        $availableDays = array();
+
         if ($isFridayAvailable) {
-            echo "Friday is the day";
+            $availableDays[] = self::$fridayString;
         }
 
         if ($isSaturdayAvailable) {
-            echo "Saturday works fine";
+            $availableDays[] = self::$saturdayString;
         }
 
         if ($isSundayAvailable) {
-            echo "Sunday works good for everybody";
+            $availableDays[] = self::$sundayString;
         }
+
+        return $availableDays;
     }
 }

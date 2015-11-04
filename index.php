@@ -9,12 +9,14 @@
 require_once("calendarReader.php");
 require_once("calendarEntry.php");
 require_once("person.php");
+require_once("layout.php");
 
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");
-
+$layout = new Layout();
 $calendarsPage = curlGetRequest("http://localhost:8080/calendar/");
 $cr = new CalendarReader();
-$cr->readCalendars($calendarsPage);
+$availableDays = $cr->readCalendars($calendarsPage);
+$layout->render($availableDays);
 
 function curlGetRequest($url) {
     $ch = curl_init();
@@ -29,8 +31,8 @@ function curlGetRequest($url) {
 }
 
 
-
-
+// TODO: Form for entering url.
+// TODO: Days as enums.
 
 
 /*function curl_cookie_handling($url) {
