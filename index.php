@@ -12,9 +12,9 @@ require_once("person.php");
 
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");
 
-$data = curlGetRequest("http://localhost:8080/calendar/");
-$calendarOwnerPages = getCalendarPages($data);
-getCalendarInfo($calendarOwnerPages);
+$calendarsPage = curlGetRequest("http://localhost:8080/calendar/");
+$cr = new CalendarReader();
+$cr->readCalendars($calendarsPage);
 
 function curlGetRequest($url) {
     $ch = curl_init();
@@ -28,36 +28,9 @@ function curlGetRequest($url) {
     return $data;
 }
 
-function getCalendarPages($data) {
-    $dom = new DOMDocument();
-    $calendarPages = array();
 
-    if ($dom->loadHTML($data)) {
-        $xpath = new DOMXPath($dom);
-        $persons = $xpath->query("//a");
 
-        foreach($persons as $person) {
-            $calendarPages[] = $person->getAttribute("href");
-        }
-    }
 
-    return $calendarPages;
-}
-
-function getCalendarInfo($calendarPaths) {
-
-    $enteredURL = "http://localhost:8080/calendar/";
-    $calendarReader = new CalendarReader();
-    $persons = array();
-
-    foreach ($calendarPaths as $path) {
-        $url = $enteredURL.$path;
-        $page = curlGetRequest($url);
-        $persons[] = $calendarReader->getCalendar($page);
-    }
-
-    var_dump($persons);
-}
 
 
 /*function curl_cookie_handling($url) {
