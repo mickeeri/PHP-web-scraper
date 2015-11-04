@@ -1,33 +1,66 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Micke
+ * User: me222wm
  * Date: 2015-11-04
  * Time: 11:40
  */
 
+require_once("calendarReader.php");
+require_once("calendarEntry.php");
+require_once("person.php");
+
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");
-$data = curl_get_request("http://localhost:8080/calendar/mary.html");
 
-$dom = new DOMDocument();
+$data = curlGetRequest("http://localhost:8080/calendar/");
+$calendarOwnerPages = getCalendarPages($data);
+getCalendarInfo($calendarOwnerPages);
 
+function curlGetRequest($url) {
+    $ch = curl_init();
 
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-if ($dom->loadHTML($data)) {
-    $xpath = new DOMXPath($dom);
-    // Get all td tags.
-    $availabilities = $xpath->query("//td");
-    $days = $xpath->query("//th");
+    $data = curl_exec($ch);
+    curl_close($ch);
 
-    for ($i = 0; $i < $days->length; $i++) {
-        echo $days->item($i)->nodeValue . "-" . $availabilities->item($i)->nodeValue . "<br>";
-    }
-
-} else {
-    die("Error while reading HTML");
+    return $data;
 }
 
-function curl_cookie_handling($url) {
+function getCalendarPages($data) {
+    $dom = new DOMDocument();
+    $calendarPages = array();
+
+    if ($dom->loadHTML($data)) {
+        $xpath = new DOMXPath($dom);
+        $persons = $xpath->query("//a");
+
+        foreach($persons as $person) {
+            $calendarPages[] = $person->getAttribute("href");
+        }
+    }
+
+    return $calendarPages;
+}
+
+function getCalendarInfo($calendarPaths) {
+
+    $enteredURL = "http://localhost:8080/calendar/";
+    $calendarReader = new CalendarReader();
+    $persons = array();
+
+    foreach ($calendarPaths as $path) {
+        $url = $enteredURL.$path;
+        $page = curlGetRequest($url);
+        $persons[] = $calendarReader->getCalendar($page);
+    }
+
+    var_dump($persons);
+}
+
+
+/*function curl_cookie_handling($url) {
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -44,17 +77,4 @@ function curl_cookie_handling($url) {
     curl_close($ch);
 
     var_dump($data);
-}
-
-
-function curl_get_request($url) {
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    $data = curl_exec($ch);
-    curl_close($ch);
-
-    return $data;
-}
+}*/
