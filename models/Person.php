@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: me222wm
- * Date: 2015-11-04
- * Time: 16:39
- */
+
+namespace model;
 
 class Person {
 
