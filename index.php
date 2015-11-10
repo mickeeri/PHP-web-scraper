@@ -1,16 +1,28 @@
 <?php
 
-//require_once("viewCalendarScraper.php");
+// Models
 require_once("models/CalendarEntry.php");
 require_once("models/Person.php");
+require_once("models/MovieDay.php");
+require_once("models/Movie.php");
+require_once("models/CinemaShow.php");
+
+// Views
 require_once("views/LayoutView.php");
 require_once("views/ApplicationView.php");
-require_once("controllers/ApplicationController.php");
 require_once("views/ResultView.php");
+require_once("views/FormView.php");
+
+// Scrapers
 require_once("views/scrapers/Scraper.php");
 require_once("views/scrapers/CalendarScraper.php");
 require_once("views/scrapers/CinemaScraper.php");
-require_once("views/FormView.php");
+
+// Controllers
+require_once("controllers/ApplicationController.php");
+
+
+
 
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");
 
