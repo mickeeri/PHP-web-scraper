@@ -2,6 +2,8 @@
 
 namespace controller;
 
+use model\Day;
+
 class ApplicationController
 {
     private $appView;
@@ -26,14 +28,25 @@ class ApplicationController
 
             // 1. Scrape calendar for available days.
             $calendarScraper = new \view\CalendarScraper($url);
+            $testSunday = new \model\Day("Sunday");
+
+            // TODO: Test med annan dag.
             $availableDays = $calendarScraper->scrapeCalendars();
+            $availableDays[] = $testSunday;
 
-            // 2. Scrape available movies on those days.
-            $cinemaScraper = new \view\CinemaScraper($url, $availableDays);
-            $cinemaScraper->scrapeCinemaPage();
+            /* @var $availableDay \model\Day */
+            foreach ($availableDays as $availableDay) {
+                $cinemaScraper = new \view\CinemaScraper($url, $availableDay);
+                // Scrapes cinema page and adds shows with available seats to day.
+                $cinemaScraper->addAvailableShowsToDay();
+
+                // Find dinner reservations matching cinema shows.
+                foreach ($availableDay->getShows() as $show) {
+                    $dinnerScraper = new \view\DinnerScraper($url, $show);
+                }
+            }
 
 
-            // cinemaScarper returns list with days and time. Object(title, day, time)?
 
             $this->view = new \view\ResultView($availableDays);
         } else {

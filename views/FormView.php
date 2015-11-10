@@ -30,7 +30,7 @@ class FormView
                 <label for="'.self::$urlInputID.'">Enter URL: </label>
                 <input type="text" value="'.self::$defaultURL.'" name="'.self::$urlInputID.'">
             </div>
-            <input class="btn btn-primary" type="submit" value="Submit" name="'.self::$submitPostID.'">
+            <input class="btn btn-primary" type="submit" value="Skicka" name="'.self::$submitPostID.'">
         </form>';
 
         return $form;

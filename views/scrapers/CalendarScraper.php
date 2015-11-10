@@ -5,6 +5,10 @@ namespace view;
 class CalendarScraper extends \view\Scraper {
 
     private $calendarURL;
+//    private $friday;
+//    private $saturday;
+//    private $sunday;
+
 
     private static $calendarPath = "calendar/";
     private static $fridayString = "Friday";
@@ -14,12 +18,15 @@ class CalendarScraper extends \view\Scraper {
     public function __construct($url)
     {
         $this->calendarURL = $url.self::$calendarPath;
+//        $this->friday = new \model\Day("Friday");
+//        $this->saturday = new \model\Day("Saturday");
+//        $this->sunday = new \model\Day("Sunday");
     }
 
     public function scrapeCalendars() {
         // 1. Get data on calendar page with curl.
         $calendarsPage = $this->curlGetRequest($this->calendarURL);
-        // 2. Get paths to all the calendars on that page.
+        // 2. Get href to all the calendars on that page.
         $calendarOwnerPages = $this->getCalendarPaths($calendarsPage);
         // 3. Scrape the info from the calendars.
         $persons = $this->getCalendarInfo($calendarOwnerPages);
@@ -75,6 +82,7 @@ class CalendarScraper extends \view\Scraper {
      */
     private function getCalendar($page) {
 
+        // TODO: dom som privat medlem. Kanske i superklassen Scraper.
         $dom = new \DOMDocument();
         //$entries = array();
 
@@ -87,10 +95,14 @@ class CalendarScraper extends \view\Scraper {
             // Get calendar owner name from header.
             $header = $xpath->query("//h2");
             $name = $header->item(0)->nodeValue;
+
+            // TODO: Varför skapar jag objekt med personnamn. Det är inte relevant egentligen.
             // Crate new object person with that name.
             $person = new \model\Person($name);
 
-            // Loops through all the days. Day and availability has same index.
+
+
+            // Loops through all the days. Since it is a table day and availability has same index.
             for ($i = 0; $i < $days->length; $i++) {
 
                 $day = $days->item($i)->nodeValue;
@@ -101,7 +113,7 @@ class CalendarScraper extends \view\Scraper {
                     $isAvailable = true;
                 }
 
-                // Creates and adds entry to person object.
+                //Creates and adds entry to person object.
                 $entry = new \model\CalendarEntry($day, $isAvailable);
                 $person->addCalendarEntry($entry);
             }
@@ -145,15 +157,15 @@ class CalendarScraper extends \view\Scraper {
         $availableDays = array();
 
         if ($isFridayAvailable) {
-            $availableDays[] = self::$fridayString;
+            $availableDays[] = new \model\Day(self::$fridayString);
         }
 
         if ($isSaturdayAvailable) {
-            $availableDays[] = self::$saturdayString;
+            $availableDays[] = new \model\Day(self::$saturdayString);
         }
 
         if ($isSundayAvailable) {
-            $availableDays[] = self::$sundayString;
+            $availableDays[] = new \model\Day(self::$sundayString);
         }
 
         return $availableDays;

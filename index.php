@@ -6,6 +6,7 @@ require_once("models/Person.php");
 require_once("models/MovieDay.php");
 require_once("models/Movie.php");
 require_once("models/CinemaShow.php");
+require_once("models/Day.php");
 
 // Views
 require_once("views/LayoutView.php");
@@ -17,6 +18,7 @@ require_once("views/FormView.php");
 require_once("views/scrapers/Scraper.php");
 require_once("views/scrapers/CalendarScraper.php");
 require_once("views/scrapers/CinemaScraper.php");
+require_once("views/scrapers/DinnerScraper.php");
 
 // Controllers
 require_once("controllers/ApplicationController.php");

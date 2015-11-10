@@ -19,4 +19,36 @@ class CinemaShow
         $this->day = $day;
         $this->time = $time;
     }
+
+
+
+
+    public function getSeatsAvailable()
+    {
+        return $this->seatsAvailable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovie()
+    {
+        return $this->movie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDay()
+    {
+        return $this->day;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
 }
