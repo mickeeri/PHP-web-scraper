@@ -28,11 +28,11 @@ class ApplicationController
 
             // 1. Scrape calendar for available days.
             $calendarScraper = new \view\CalendarScraper($url);
-            $testSunday = new \model\Day("Sunday");
+            //$testSunday = new \model\Day("Sunday");
 
             // TODO: Test med annan dag.
             $availableDays = $calendarScraper->scrapeCalendars();
-            $availableDays[] = $testSunday;
+            //$availableDays[] = $testSunday;
 
             /* @var $availableDay \model\Day */
             foreach ($availableDays as $availableDay) {
@@ -43,6 +43,7 @@ class ApplicationController
                 // Find dinner reservations matching cinema shows.
                 foreach ($availableDay->getShows() as $show) {
                     $dinnerScraper = new \view\DinnerScraper($url, $show);
+                    $dinnerScraper->findAvailableTables();
                 }
             }
 

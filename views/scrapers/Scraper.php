@@ -4,6 +4,9 @@ namespace view;
 
 class Scraper
 {
+
+
+
     protected function curlGetRequest($url)
     {
         $ch = curl_init();

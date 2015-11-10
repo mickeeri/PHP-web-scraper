@@ -60,10 +60,26 @@ class ResultView
 
         /* @var $show \model\CinemaShow */
         foreach ($day->getShows() as $show) {
-            $list .= '<li class="list-group-item">Kl '.$show->getTime().' visas '.$show->getMovie().'</li>';
+            $list .= '<li class="list-group-item active">Kl '.$show->getTime().' visas '.$show->getMovie().'</li>
+            '.$this->renderAvailableTables($show).'
+            ';
+
         }
 
         return $list;
+    }
+
+    private function renderAvailableTables($show)
+    {
+        $ret = '';
+
+        /* @var $show \model\CinemaShow */
+        /* @var $table\model\DinnerTime */
+        foreach ($show->getAvailableTables() as $table) {
+            $ret .= '<li class="list-group-item">Ledigt bord på Zekes mellan '.$table->getStartTime().':00 och '.$table->getEndTime().':00</li>';
+        }
+
+        return $ret;
     }
 
 //    private function renderShowsList()

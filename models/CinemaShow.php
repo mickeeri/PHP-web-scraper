@@ -8,6 +8,7 @@ class CinemaShow
     private $day;
     private $time;
     private $seatsAvailable = false;
+    private $availableTables;
 
     public function __construct($movieTitle, $day, $time, $seatsAvailable)
     {
@@ -18,9 +19,8 @@ class CinemaShow
         $this->movie = $movieTitle;
         $this->day = $day;
         $this->time = $time;
+        $this->availableTables = array();
     }
-
-
 
 
     public function getSeatsAvailable()
@@ -50,5 +50,17 @@ class CinemaShow
     public function getTime()
     {
         return $this->time;
+    }
+
+    public function addAvailableTable($dinnerTime) {
+        $this->availableTables[] = $dinnerTime;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableTables()
+    {
+        return $this->availableTables;
     }
 }

@@ -7,6 +7,7 @@ require_once("models/MovieDay.php");
 require_once("models/Movie.php");
 require_once("models/CinemaShow.php");
 require_once("models/Day.php");
+require_once("models/DinnerTime.php");
 
 // Views
 require_once("views/LayoutView.php");
@@ -23,8 +24,9 @@ require_once("views/scrapers/DinnerScraper.php");
 // Controllers
 require_once("controllers/ApplicationController.php");
 
+require_once("../kint-master/Kint.class.php");
 
-
+libxml_use_internal_errors(TRUE);
 
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");
 
@@ -37,17 +39,20 @@ $ac->handleInput();
 $view = $ac->generateOutput();
 $lv->render($ac, $view);
 
+// TODO: Feedback att man klickat på knappen skicka.
+
 
 //$calendarsPage = curlGetRequest("http://localhost:8080/calendar/");
 //$cr = new CalendarReader();
 //$availableDays = $cr->readCalendars($calendarsPage);
 
+/* Enligt exemplet kan man inte se Söderkåkar som börjar kl: 21 och äta middag mellan 18:00 - 20:00,
+men det går att se Söderkåkar kl: 18-20 och äta middag kl 20:00-22:00 */
 
 
 
 
 
-// TODO: Form for entering url.
 // TODO: Days as enums.
 
 

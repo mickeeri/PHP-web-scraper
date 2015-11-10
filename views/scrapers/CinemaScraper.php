@@ -108,6 +108,8 @@ class CinemaScraper extends \view\Scraper
                 }
             }
         }
+
+        return false;
     }
 
     private function getDays() {
