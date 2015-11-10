@@ -70,16 +70,4 @@ class FormView
                 </div>';
         }
     }
-
-
-
-    private function getFieldValue()
-    {
-//        if (isset($_POST[self::$urlInputID])) {
-//            return self::$defaultURL;
-//        }
-
-    }
-
-
 }

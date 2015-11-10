@@ -9,6 +9,7 @@ require_once("controllers/ApplicationController.php");
 require_once("views/ResultView.php");
 require_once("views/scrapers/Scraper.php");
 require_once("views/scrapers/CalendarScraper.php");
+require_once("views/scrapers/CinemaScraper.php");
 require_once("views/FormView.php");
 
 // curl_cookie_handling("http://localhost:63342/1dv449_laboration1/index.php");

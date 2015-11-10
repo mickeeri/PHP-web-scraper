@@ -21,14 +21,19 @@ class ApplicationController
     {
         if ($this->appView->onScrapeResultPage()) {
 
-            // 1. Scrape calendar for available days.
+
             $url = $this->appView->getURLFromCookie();
-            $cs = new \view\CalendarScraper($url);
-            $availableDays= $cs->scrapeCalendars();
 
-            // 2. Scrape available movies.
+            // 1. Scrape calendar for available days.
+            $calendarScraper = new \view\CalendarScraper($url);
+            $availableDays = $calendarScraper->scrapeCalendars();
+
+            // 2. Scrape available movies on those days.
+            $cinemaScraper = new \view\CinemaScraper($url, $availableDays);
+            $cinemaScraper->scrapeCinemaPage();
 
 
+            // cinemaScarper returns list with days and time. Object(title, day, time)?
 
             $this->view = new \view\ResultView($availableDays);
         } else {
