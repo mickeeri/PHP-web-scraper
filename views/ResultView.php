@@ -11,7 +11,6 @@ class ResultView
     /**
      * ResultView constructor.
      * @param $availableDays array with days.
-     * @param $availableShows array with available shows.
      */
     public function __construct($availableDays)
     {
@@ -32,7 +31,8 @@ class ResultView
             ';
     }
 
-    private function renderDays() {
+    private function renderDays()
+    {
 
         $ret = '';
 
@@ -42,7 +42,7 @@ class ResultView
             '<h3>'.$day->getDayInSwedish().'</h3>
             <h4>Föreställningar</h4>
             <ul class="list-group">
-                '.$this->renderShowsAndDinner($day).'
+                '.$this->renderShows($day).'
             </ul>
             ';
         }
@@ -54,7 +54,7 @@ class ResultView
      * @param $day \model\Day
      * @return string
      */
-    private function renderShowsAndDinner($day)
+    private function renderShows($day)
     {
         $list = '';
 
@@ -69,30 +69,26 @@ class ResultView
         return $list;
     }
 
+
+    /**
+     * @param $show \model\CinemaShow
+     * @return string HTML
+     */
     private function renderAvailableTables($show)
     {
         $ret = '';
+        $tables = $show->getAvailableTables();
 
-        /* @var $show \model\CinemaShow */
-        /* @var $table\model\DinnerTime */
-        foreach ($show->getAvailableTables() as $table) {
-            $ret .= '<li class="list-group-item">Ledigt bord på Zekes mellan '.$table->getStartTime().':00 och '.$table->getEndTime().':00</li>';
+        if (empty($tables)) {
+            $ret .= '<li class="list-group-item">Inga lediga bord efter bion.</li>';
+        } else {
+            /* @var $table\model\DinnerTime */
+            foreach ($tables as $table) {
+                $ret .= '<li class="list-group-item">Ledigt bord på Zekes mellan
+                    '.$table->getStartTime().':00 och '.$table->getEndTime().':00</li>';
+            }
         }
 
         return $ret;
     }
-
-//    private function renderShowsList()
-//    {
-//        $list = '';
-//
-//        /* @var $show \model\CinemaShow */
-//        foreach ($this->shows as $show) {
-//            $list .= '<li class="list-group-item">'.$show->getDay().' kl '.$show->getTime().' visas '.$show->getMovie().'</li>';
-//        }
-//
-//        return $list;
-//    }
-
-
 }

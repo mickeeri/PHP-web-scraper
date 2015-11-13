@@ -31,7 +31,7 @@ class DinnerScraper extends \view\Scraper
         $this->movieStartTime = intval($this->show->getTime());
     }
 
-    public function findAvailableTables()
+    public function addAvailableTablesToShow()
     {
 
         if ($this->dom->loadHTML($this->dinnerPage)) {

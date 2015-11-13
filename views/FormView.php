@@ -27,10 +27,11 @@ class FormView
         ''.$this->getMessage().'
         <form class="form-inline" method="post">
             <div class="form-group">
-                <label for="'.self::$urlInputID.'">Enter URL: </label>
+                <label for="'.self::$urlInputID.'">Ange URL: </label>
                 <input type="text" value="'.self::$defaultURL.'" name="'.self::$urlInputID.'">
             </div>
-            <input class="btn btn-primary" type="submit" value="Skicka" name="'.self::$submitPostID.'">
+            <input class="btn btn-primary" type="submit" value="Skicka"
+            data-loading-text="Skickar..." name="'.self::$submitPostID.'">
         </form>';
 
         return $form;
@@ -45,6 +46,7 @@ class FormView
      * @return bool true if user has pressed form submit button.
      */
     public function userWantsToSubmitURL() {
+
         return isset($_POST[self::$submitPostID]);
     }
 

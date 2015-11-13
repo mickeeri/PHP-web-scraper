@@ -4,7 +4,7 @@ namespace view;
 
 class LayoutView {
 
-    public function render($nv, $view) {
+    public function render($view) {
         echo '
         <!DOCTYPE html>
 		    <html lang="en">
@@ -13,7 +13,7 @@ class LayoutView {
 		        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		        <meta name="viewport" content="width=device-width, initial-scale=1">
 		        <link href="css/style.css" rel="stylesheet">
-		        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+		        <link href="css/bootstrap.min.css" rel="stylesheet">
 		        <title>Laboration 1</title>
 		  	</head>
 	      	<body>
@@ -25,19 +25,11 @@ class LayoutView {
                         </ul>
 		            </div>
 		        </div>
+		        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		        <script src="js/bootstrap.min.js"></script>
+		        <script src="js/script.js"></script>
 	       	</body>
 	    </html>
 	    ';
     }
-
-//    private function renderAvailableDays($availableDays) {
-//        $ret = '';
-//
-//        foreach ($availableDays as $day) {
-//            $ret .= '<li class="list-group-item">'.$day.' works good for everybody</li>';
-//        }
-//
-//        return $ret;
-//    }
-
 }

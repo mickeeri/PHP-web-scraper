@@ -26,7 +26,7 @@ class ApplicationController
 
             $url = $this->appView->getURLFromCookie();
 
-            // 1. Scrape calendar for available days.
+            // Scrape calendar for available days.
             $calendarScraper = new \view\CalendarScraper($url);
             //$testSunday = new \model\Day("Sunday");
 
@@ -43,7 +43,7 @@ class ApplicationController
                 // Find dinner reservations matching cinema shows.
                 foreach ($availableDay->getShows() as $show) {
                     $dinnerScraper = new \view\DinnerScraper($url, $show);
-                    $dinnerScraper->findAvailableTables();
+                    $dinnerScraper->addAvailableTablesToShow();
                 }
             }
 
@@ -54,7 +54,9 @@ class ApplicationController
             $this->view = new \view\FormView();
 
             if ($this->view->userWantsToSubmitURL()) {
+
                 $url = $this->view->getSubmittedURL();
+
                 if (isset($url)) {
                     $this->appView->saveURLInCookie($url);
                     $this->appView->redirectToResultPage();
