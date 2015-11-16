@@ -10,6 +10,7 @@ class ApplicationController
     private $view;
 
 
+
     /**
      * ApplicationController constructor.
      * @param \view\ApplicationView $av
@@ -23,8 +24,7 @@ class ApplicationController
     {
         if ($this->appView->onScrapeResultPage()) {
 
-
-            $url = $this->appView->getURLFromCookie();
+            $url = $this->appView->getURLFromCookie(true);
 
             // Scrape calendar for available days.
             $calendarScraper = new \view\CalendarScraper($url);
@@ -47,10 +47,20 @@ class ApplicationController
                 }
             }
 
-
-
             $this->view = new \view\ResultView($availableDays);
-        } else {
+
+
+        }
+        elseif ($this->appView->wantsTooBookTable()) {
+            $url = $this->appView->getURLFromCookie(false);
+            $query = $this->appView->getReservationTime();
+            $db = new \scraper\DinnerBooker($url);
+            $db->curlPostRequest($query);
+
+            $this->view = new \view\ReservationView();
+        }
+
+        else {
             $this->view = new \view\FormView();
 
             if ($this->view->userWantsToSubmitURL()) {

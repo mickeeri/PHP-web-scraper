@@ -85,7 +85,8 @@ class ResultView
             /* @var $table\model\DinnerTime */
             foreach ($tables as $table) {
                 $ret .= '<li class="list-group-item">Ledigt bord på Zekes mellan
-                    '.$table->getStartTime().':00 och '.$table->getEndTime().':00</li>';
+                    '.$table->getStartTime().':00 och '.$table->getEndTime().':00.
+                    <a href="?book='.$table->getReservationQuery().'">Boka</a></li>';
             }
         }
 

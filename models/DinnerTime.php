@@ -16,12 +16,14 @@ class DinnerTime
     private $startTime;
     private $endTime;
 
+
     public function __construct($day, $startTime, $endTime)
     {
         $this->day = $day;
         $this->startTime = $startTime;
         $this->endTime = $endTime;
     }
+
 
     /**
      * @return mixed
@@ -30,6 +32,7 @@ class DinnerTime
     {
         return $this->day;
     }
+
 
     /**
      * @return mixed
@@ -45,6 +48,26 @@ class DinnerTime
     public function getEndTime()
     {
         return $this->endTime;
+    }
+
+    /**
+     * @return string containing information to post to make reservation of table.
+     */
+    public function getReservationQuery()
+    {
+        $day = "";
+
+        if ($this->day === "Fredag") {
+            $day = "fre";
+        }
+        elseif ($this->day === "Lördag") {
+            $day = "lor";
+        }
+        elseif($this->day === "Söndag") {
+            $day = "son";
+        }
+
+        return $day.$this->startTime.$this->endTime;
     }
 
 }

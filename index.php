@@ -14,19 +14,21 @@ require_once("views/LayoutView.php");
 require_once("views/ApplicationView.php");
 require_once("views/ResultView.php");
 require_once("views/FormView.php");
+require_once("views/ReservationView.php");
 
 // Scrapers
 require_once("views/scrapers/Scraper.php");
 require_once("views/scrapers/CalendarScraper.php");
 require_once("views/scrapers/CinemaScraper.php");
 require_once("views/scrapers/DinnerScraper.php");
+require_once("views/scrapers/DinnerBooker.php");
 
 // Controllers
 require_once("controllers/ApplicationController.php");
 
-//require_once("../kint-master/Kint.class.php");
+require_once("../kint-master/Kint.class.php");
 
-//libxml_use_internal_errors(TRUE);
+libxml_use_internal_errors(TRUE);
 
 // Creating views and controllers.
 $av = new \view\ApplicationView();
