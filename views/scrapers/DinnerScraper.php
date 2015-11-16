@@ -70,6 +70,7 @@ class DinnerScraper extends \view\Scraper
 
             /* @var $dinnerTime \model\DinnerTime */
             foreach ($dinnerTimes as $dinnerTime) {
+
                 // If dinner starts after movie.
                 if ($dinnerTime->getStartTime() >= $movieEndTime) {
                     //$this->availableDinnerTimes[] = $dinnerTime;

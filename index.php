@@ -38,7 +38,6 @@ $ac->handleInput();
 $view = $ac->generateOutput();
 $lv->render($view);
 
-// TODO: Feedback att man klickat på knappen skicka.
 // TODO: Days as enums.
 
 
