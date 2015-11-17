@@ -26,7 +26,7 @@ class DinnerBooker
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
 
-        // For some reason ass array does not work.
+        // For some reason associative array doesn't work.
 //        $post_arr = array(
 //            'group1' => $dayAndTime,
 //            'username' => self::$userName,

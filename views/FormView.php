@@ -65,7 +65,6 @@ class FormView
         }
     }
 
-
     /**
      * @return string div element with error message.
      */

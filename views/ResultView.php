@@ -5,8 +5,6 @@ namespace view;
 class ResultView
 {
     private $days;
-    private $shows;
-
 
     /**
      * ResultView constructor.
@@ -54,7 +52,6 @@ class ResultView
      */
     private function renderShows($day)
     {
-        $list = '';
         $ret = '';
         $i = 1;
 
@@ -63,8 +60,7 @@ class ResultView
 
             // Renders info about show and available tables with help of bootstrap collapse.
             $ret .=
-                '
-                <li class="list-group-item">
+                '<li class="list-group-item">
                     <strong>'.$show->getMovie().'</strong> visas kl <strong>'.$show->getTime().'</strong>
                     <a data-toggle="collapse" href="#availableTables'.$i.'"
                     aria-expanded="false" aria-controls="availableTables'.$i.'">
@@ -76,26 +72,12 @@ class ResultView
                             '.$this->renderAvailableTables($show).'
                         </div>
                     </div>
-                </li>
-                ';
+                </li>';
 
             ++$i;
         }
-
-
-//        /* @var $show \model\CinemaShow */
-//        foreach ($day->getShows() as $show) {
-//            $list .=
-//                '<li class="list-group-item"><strong>'.$show->getMovie().'</strong> visas kl '.$show->getTime().'
-//                <a href="?result&title='.$show->getMovie().'&time='.$show->getTime().'&day='.$show->getDay().'">Välj och boka bord</a></li>
-//                ';
-//        }
         return $ret;
     }
-
-//
-//<li class="list-group-item"><strong>Lediga bord på Zekes efter föreställningen</strong></li>
-//'.$this->renderAvailableTables($show).'
 
 
     /**

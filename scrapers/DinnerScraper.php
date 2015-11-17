@@ -26,8 +26,7 @@ class DinnerScraper extends \scraper\Scraper
 
     /**
      * Checks for available tables on certain day.
-     * @throws \Exception
-     * @internal param \model\Day $day
+     * @throws \Exception if loadHTML fails
      */
     public function scrapeDinnerPage()
     {

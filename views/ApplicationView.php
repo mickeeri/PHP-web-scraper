@@ -7,41 +7,16 @@ class ApplicationView
     private static $resultQueryString = "result";
     private static $URLCookieName = "url";
     private static $bookTableURL = "book";
-//    private static $titleQueryString = "title";
-//    private static $timeQueryString = "time";
-//    private static $dayQueryString = "day";
 
     public function wantsTooBookTable()
     {
         return isset($_GET[self::$bookTableURL]);
     }
 
-//    public function wantsToSeeAvailableTables()
-//    {
-//        if (isset($_GET[self::$titleQueryString]) && isset($_GET[self::$timeQueryString]) &&
-//        isset($_GET[self::$dayQueryString])) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     public function onScrapeResultPage()
     {
         return isset($_GET[self::$resultQueryString]);
     }
-
-//    /**
-//     * Provides info to show on table reservation page.
-//     */
-//    public function getInfoForReservation()
-//    {
-//        $movieTitle = $_GET[self::$titleQueryString];
-//        $time = $_GET[self::$timeQueryString];
-//        $day = $_GET[self::$dayQueryString];
-//
-//        return new \model\CinemaShow($movieTitle, $day, $time, 1);
-//    }
 
     public function getReservationTime()
     {
