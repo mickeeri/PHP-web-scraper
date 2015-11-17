@@ -1,9 +1,9 @@
 <?php
 
-namespace view;
+namespace scraper;
 
 
-class DinnerScraper extends \view\Scraper
+class DinnerScraper extends \scraper\Scraper
 {
     private $dinnerURL;
     private $show;

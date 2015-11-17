@@ -1,8 +1,8 @@
 <?php
 
-namespace view;
+namespace scraper;
 
-class CalendarScraper extends \view\Scraper {
+class CalendarScraper extends \scraper\Scraper {
 
     private $calendarURL;
 //    private $friday;
@@ -18,9 +18,6 @@ class CalendarScraper extends \view\Scraper {
     public function __construct($url)
     {
         $this->calendarURL = $url.self::$calendarPath;
-//        $this->friday = new \model\Day("Friday");
-//        $this->saturday = new \model\Day("Saturday");
-//        $this->sunday = new \model\Day("Sunday");
     }
 
     public function scrapeCalendars() {
@@ -40,10 +37,12 @@ class CalendarScraper extends \view\Scraper {
      * @return array $calendarPages paths to different calendars.
      */
     private function getCalendarPaths($data) {
+
         $dom = new \DOMDocument();
         $calendarPages = array();
 
         if ($dom->loadHTML($data)) {
+
             $xpath = new \DOMXPath($dom);
             $persons = $xpath->query("//a");
 

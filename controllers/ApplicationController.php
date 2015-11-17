@@ -2,14 +2,10 @@
 
 namespace controller;
 
-use model\Day;
-
 class ApplicationController
 {
     private $appView;
     private $view;
-
-
 
     /**
      * ApplicationController constructor.
@@ -22,44 +18,58 @@ class ApplicationController
 
     public function handleInput()
     {
+
+        // User wants to see result of scrape.
         if ($this->appView->onScrapeResultPage()) {
 
-            $url = $this->appView->getURLFromCookie(true);
+            try {
 
-            // Scrape calendar for available days.
-            $calendarScraper = new \view\CalendarScraper($url);
-            //$testSunday = new \model\Day("Sunday");
+                $url = $this->appView->getURLFromCookie(true);
 
-            // TODO: Test med annan dag.
-            $availableDays = $calendarScraper->scrapeCalendars();
-            //$availableDays[] = $testSunday;
+                // Scrape calendar for available days.
+                $calendarScraper = new \scraper\CalendarScraper($url);
+                //$testSunday = new \model\Day("Sunday");
 
-            /* @var $availableDay \model\Day */
-            foreach ($availableDays as $availableDay) {
-                $cinemaScraper = new \view\CinemaScraper($url, $availableDay);
-                // Scrapes cinema page and adds shows with available seats to day.
-                $cinemaScraper->addAvailableShowsToDay();
+                // TODO: Test med annan dag.
+                $availableDays = $calendarScraper->scrapeCalendars();
+                //$availableDays[] = $testSunday;
 
-                // Find dinner reservations matching cinema shows.
-                foreach ($availableDay->getShows() as $show) {
-                    $dinnerScraper = new \view\DinnerScraper($url, $show);
-                    $dinnerScraper->addAvailableTablesToShow();
+                /* @var $availableDay \model\Day */
+                foreach ($availableDays as $availableDay) {
+
+                    $cinemaScraper = new \scraper\CinemaScraper($url, $availableDay);
+                    // Scrapes cinema page and adds shows with available seats to day.
+                    $cinemaScraper->addAvailableShowsToDay();
+
+                    // Find dinner reservations matching cinema shows.
+                    foreach ($availableDay->getShows() as $show) {
+                        $dinnerScraper = new \scraper\DinnerScraper($url, $show);
+                        $dinnerScraper->addAvailableTablesToShow();
+                    }
                 }
+
+                $this->view = new \view\ResultView($availableDays);
+
+            } catch (\Exception $e) {
+                $this->view = new \view\ErrorView($e->getMessage());
             }
 
-            $this->view = new \view\ResultView($availableDays);
-
 
         }
+        // User has pressed link to book table.
         elseif ($this->appView->wantsTooBookTable()) {
-            $url = $this->appView->getURLFromCookie(false);
-            $query = $this->appView->getReservationTime();
-            $db = new \scraper\DinnerBooker($url);
-            $db->curlPostRequest($query);
 
-            $this->view = new \view\ReservationView();
+            try {
+                $url = $this->appView->getURLFromCookie(false);
+                $query = $this->appView->getReservationTime();
+                $db = new \scraper\DinnerBooker($url);
+                $response = $db->curlPostRequest($query);
+                $this->view = new \view\ReservationView($response);
+            } catch (\Exception $e) {
+                $this->view = new \view\ErrorView($e->getMessage());
+            }
         }
-
+        // User is on default page.
         else {
             $this->view = new \view\FormView();
 
@@ -75,6 +85,9 @@ class ApplicationController
         }
     }
 
+    /**
+     * @return view\ to render in LayoutView
+     */
     public function generateOutput()
     {
         return $this->view;

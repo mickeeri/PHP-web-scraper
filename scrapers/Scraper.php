@@ -1,6 +1,6 @@
 <?php
 
-namespace view;
+namespace scraper;
 
 class Scraper
 {
@@ -11,6 +11,10 @@ class Scraper
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $data = curl_exec($ch);
         curl_close($ch);
+
+        if($data === false) {
+            throw new \Exception("Skrapningen klarade inte av att läsa sidan.");
+        }
 
         return $data;
     }
