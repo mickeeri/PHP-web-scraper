@@ -9,7 +9,7 @@
 namespace model;
 
 
-class DinnerTime
+class DinnerTable
 {
 
     private $day;
@@ -18,7 +18,7 @@ class DinnerTime
 
 
     /**
-     * DinnerTime constructor.
+     * DinnerTable constructor.
      * @param $day string Day that dinner takes place.
      * @param $startTime int Time that dinner starts.
      * @param $endTime int Time when dinner ends.
@@ -51,19 +51,19 @@ class DinnerTime
      */
     public function getReservationQuery()
     {
-        $day = "";
+//        $day = "";
+//
+//        if ($this->day === "Fredag") {
+//            $day = "fre";
+//        }
+//        elseif ($this->day === "Lördag") {
+//            $day = "lor";
+//        }
+//        elseif($this->day === "Söndag") {
+//            $day = "son";
+//        }
 
-        if ($this->day === "Fredag") {
-            $day = "fre";
-        }
-        elseif ($this->day === "Lördag") {
-            $day = "lor";
-        }
-        elseif($this->day === "Söndag") {
-            $day = "son";
-        }
-
-        return $day.$this->startTime.$this->endTime;
+        return $this->day.$this->startTime.$this->endTime;
     }
 
 }

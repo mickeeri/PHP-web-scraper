@@ -7,6 +7,7 @@ class Day
 {
     private $day;
     private $availableShows;
+    private $availableTables;
 
     private static $fridayString = "Friday";
     private static $saturdayString = "Saturday";
@@ -24,6 +25,7 @@ class Day
     {
         $this->day = $day;
         $this->availableShows = array();
+        $this->availableTables = array();
     }
 
     /**
@@ -57,8 +59,31 @@ class Day
         return null;
     }
 
-    public function getShows() {
+    public function getShows()
+    {
         return $this->availableShows;
+    }
+
+    public function getDayShortSWE()
+    {
+        $day = "";
+
+        if ($this->day === "Friday") {
+            $day = "fre";
+        }
+        elseif ($this->day === "Saturday") {
+            $day = "lor";
+        }
+        elseif($this->day === "Sunday") {
+            $day = "son";
+        }
+
+        return $day;
+    }
+
+    public function getTables()
+    {
+        return $this->availableTables;
     }
 
     /**
@@ -68,5 +93,14 @@ class Day
     public function addShow($show)
     {
         $this->availableShows[] = $show;
+    }
+
+    /**
+     * Add free dinner tables for the particular day.
+     * @param $table \model\DinnerTable
+     */
+    public function addTable($table)
+    {
+        $this->availableTables[] = $table;
     }
 }

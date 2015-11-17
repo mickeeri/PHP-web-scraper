@@ -14,6 +14,7 @@ class FormView
      */
     public function __construct()
     {
+
     }
 
     public function response()
@@ -37,11 +38,6 @@ class FormView
         return $form;
     }
 
-//    private function getInputField()
-//    {
-//
-//    }
-
     /**
      * @return bool true if user has pressed form submit button.
      */
@@ -53,7 +49,7 @@ class FormView
     public function getSubmittedURL() {
         $url = $_POST[self::$urlInputID];
         if ($url === "") {
-            $this->errorMessage = "You have to enter URL";
+            $this->errorMessage = "Fältet får inte vara tomt";
             return null;
         } else {
             return $url;
@@ -66,7 +62,6 @@ class FormView
 
             return
                 '<div class="alert alert-danger">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span>
                     ' . $this->errorMessage . '
                 </div>';

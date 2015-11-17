@@ -25,8 +25,7 @@ class ResultView
     private function renderResult()
     {
         return
-            '<h2>Tillgängliga dagar</h2>
-            '.$this->renderDays().'
+            $this->renderDays().'
             <a href="?"><< Tillbaka</a>
             ';
     }
@@ -60,10 +59,10 @@ class ResultView
 
         /* @var $show \model\CinemaShow */
         foreach ($day->getShows() as $show) {
-            $list .= '<li class="list-group-item active">Kl '.$show->getTime().' visas '.$show->getMovie().'</li>
+            $list .= '<li class="list-group-item active"><strong>'.$show->getMovie().'</strong> visas kl '.$show->getTime().'</li>
+            <li class="list-group-item"><strong>Lediga bord på Zekes efter föreställningen</strong></li>
             '.$this->renderAvailableTables($show).'
             ';
-
         }
 
         return $list;
@@ -80,12 +79,12 @@ class ResultView
         $tables = $show->getAvailableTables();
 
         if (empty($tables)) {
-            $ret .= '<li class="list-group-item">Inga lediga bord efter bion.</li>';
+            $ret .= '<li class="list-group-item">Inga lediga bord</li>';
         } else {
-            /* @var $table\model\DinnerTime */
+            /* @var $table\model\DinnerTable */
             foreach ($tables as $table) {
-                $ret .= '<li class="list-group-item">Ledigt bord på Zekes mellan
-                    '.$table->getStartTime().':00 och '.$table->getEndTime().':00.
+                $ret .= '<li class="list-group-item">
+                    '.$table->getStartTime().':00 - '.$table->getEndTime().':00.
                     <a href="?book='.$table->getReservationQuery().'">Boka</a></li>';
             }
         }

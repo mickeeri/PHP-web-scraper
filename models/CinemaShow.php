@@ -58,7 +58,7 @@ class CinemaShow
 
     /**
      * Add dinner times that are after the cinema show.
-     * @param $dinnerTime \model\DinnerTime
+     * @param $dinnerTime \model\DinnerTable
      */
     public function addAvailableTable($dinnerTime)
     {

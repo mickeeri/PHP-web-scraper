@@ -18,40 +18,43 @@ class DinnerScraper extends \scraper\Scraper
     /**
      * DinnerScraper constructor.
      * @param $url
-     * @param $show \model\CinemaShow
+     * @param $day \model\Day
      */
-    public function __construct($url, $show)
+    public function __construct($url, $day)
     {
         $this->dinnerURL = $url.self::$dinnerPath;
-        $this->show = $show;
-        $this->day = $this->show->getDay();
+        //$this->show = $show;
+        $this->day = $day;
         $this->dinnerPage = $this->curlGetRequest($this->dinnerURL);
         $this->dom = new \DOMDocument();
         $this->availableDinnerTimes = array();
-        $this->movieStartTime = intval($this->show->getTime());
+        //$this->movieStartTime = intval($this->show->getTime());
     }
 
     /**
      * Add free tables that starts after the provided movie.
+     * @param $day \model\Day
+     * @throws \Exception
      */
-    public function addAvailableTablesToShow()
+    public function scrapeDinnerPage()
     {
+        $tablesAvailableOnDay = array();
 
         if ($this->dom->loadHTML($this->dinnerPage)) {
 
             $xpath = new \DOMXPath($this->dom);
 
             // Tables that are not fully booked have type radio.
-            $tables = $xpath->query("//input[@type='radio']");
+            $tableInputs = $xpath->query("//input[@type='radio']");
 
-            /* @var $table \DOMElement */
-            foreach ($tables as $table) {
+            /* @var $input \DOMElement */
+            foreach ($tableInputs as $input) {
 
-                $inputValue = $table->getAttribute('value');
-
+                // Get value of input-element.
+                $inputValue = $input->getAttribute('value');
 
                 // Remove all numbers to get day.
-                $day = preg_replace('/[0-9]+/', '', $inputValue);
+                $inputDay = preg_replace('/[0-9]+/', '', $inputValue);
 
                 // Remove all letters to get time only.
                 $timeString = preg_replace('/\D/', '', $inputValue);
@@ -60,68 +63,60 @@ class DinnerScraper extends \scraper\Scraper
                 // Last two numbers is end hour.
                 $end = intval(substr($timeString, 2));
 
-                d($this->day);
-                d($day);
-                d($timeString);
-                d($start);
-                ddd($end);
-
-
-
-            }
-
-
-
-
-            // Get span element for provided day.
-            $spans = $xpath->query("//span[.='".$this->day."']");
-
-
-
-
-
-
-
-            $firstDiv = $spans->item(0)->parentNode->parentNode->parentNode;
-
-
-
-            /* @var $firstDiv \DOMElement */
-            $secondDivClassName = $firstDiv->nextSibling->nextSibling->nextSibling->nextSibling->getAttribute("class");
-            $reservationElement = $xpath->query("//div[@class='".$secondDivClassName."']//p");
-
-
-            $dinnerTimes = array();
-
-            /* @var $element \DOMElement */
-            foreach($reservationElement as $element) {
-                // If first child of element has
-                if ($element->firstChild->nodeName === "input") {
-
-                    $timeString = preg_replace('/\D/', '', $element->nodeValue);
-                    $start = intval(substr($timeString, 0, -2));
-                    $end = intval(substr($timeString, 2));
-                    $reservation = new \model\DinnerTime($this->day, $start, $end);
-                    $dinnerTimes[] = $reservation;
-
+                // If the day in radio-buttons value equals the provided day.
+                if ($inputDay === $this->day->getDayShortSWE()) {
+                    // Create and add table to day.
+                    $table = new \model\DinnerTable($inputDay, $start, $end);
+                    $tablesAvailableOnDay[] = $table;
                 }
             }
 
-            // Movies length maximum 2 hours.
-            $movieEndTime = $this->movieStartTime + 2;
-
-            /* @var $dinnerTime \model\DinnerTime */
-            foreach ($dinnerTimes as $dinnerTime) {
-
-                // If dinner starts after movie.
-                if ($dinnerTime->getStartTime() >= $movieEndTime) {
-                    //$this->availableDinnerTimes[] = $dinnerTime;
-                    $this->show->addAvailableTable($dinnerTime);
-                }
+            // Check if dinner time is after show.
+            foreach ($tablesAvailableOnDay as $availableTable) {
+                $this->checkAndAddTableToShow($availableTable);
             }
 
         } else {
             throw new \Exception("Kunde inte läsa HTML på restaurangsidan.");
+        }
+    }
+
+//
+//    /**
+//     * @param $table \model\DinnerTable
+//     * @param $shows array
+//     */
+//    public function findAndAddTablesAfterShow($table, $shows)
+//    {
+//        /** @var \model\CinemaShow $show */
+//        foreach ($shows as $show) {
+//
+//            $movieEndHour = $show->getTime() + 2;
+//
+//            // If dinnertime starts after movie.
+//            if ($table->getStartTime() >= $movieEndHour) {
+//                // Add table to show-object.
+//                $show->addAvailableTable($table);
+//            }
+//        }
+//    }
+
+    /**
+     * Adds table to show if it is after the movie has ended.
+     * @param $table \model\DinnerTable
+     */
+    private function checkAndAddTableToShow($table)
+    {
+        /** @var \model\CinemaShow $show */
+        foreach ($this->day->getShows() as $show) {
+            // Movie is at the most two hours.
+            $movieEndHour = $show->getTime() + 2;
+
+            // If dinnertime starts after movie.
+            if ($table->getStartTime() >= $movieEndHour) {
+                // Add table to show.
+                $show->addAvailableTable($table);
+            }
         }
     }
 

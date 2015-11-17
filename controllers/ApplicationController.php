@@ -37,17 +37,10 @@ class ApplicationController
                     $cinemaScraper = new \scraper\CinemaScraper($url, $availableDay);
                     $cinemaScraper->addAvailableShowsToDay();
 
-                    // Skrapa efter tillgänliga bord den dagen.
-                    // Kolla om det funkar efter en specifik show.
-
-                    // Scrapes restaurant page to find and add available tables.
-                    $dinnerScraper = new \scraper\DinnerScraper($url, $availableDay);
-
-                    // Find and add available tables after the show.
-                    foreach ($availableDay->getShows() as $show) {
-                        $dinnerScraper = new \scraper\DinnerScraper($url, $show);
-                        $dinnerScraper->addAvailableTablesToShow();
-                    }
+                    // Scrapes restaurant page to find available tables for current day, and
+                    // then adds table to days movie-shows if they are after show.
+                    $ds = new \scraper\DinnerScraper($url, $availableDay);
+                    $ds->scrapeDinnerPage();
                 }
 
                 // Set result view.

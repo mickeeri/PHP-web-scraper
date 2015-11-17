@@ -7,7 +7,7 @@ require_once("models/MovieDay.php");
 require_once("models/Movie.php");
 require_once("models/CinemaShow.php");
 require_once("models/Day.php");
-require_once("models/DinnerTime.php");
+require_once("models/DinnerTable.php");
 
 // Views
 require_once("views/LayoutView.php");
@@ -44,3 +44,5 @@ $ac = new \controller\ApplicationController($av);
 $ac->handleInput();
 $view = $ac->generateOutput();
 $lv->render($view);
+
+// TODO: Validera HTML
