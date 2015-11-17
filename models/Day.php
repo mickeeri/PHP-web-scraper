@@ -7,7 +7,6 @@ class Day
 {
     private $day;
     private $availableShows;
-   // private $isAvailable;
 
     private static $fridayString = "Friday";
     private static $saturdayString = "Saturday";
@@ -35,7 +34,13 @@ class Day
         return $this->day;
     }
 
-    public function getDayInSwedish() {
+
+    /**
+     * Returns days translated to swedish.
+     * @return null|string
+     */
+    public function getDayInSwedish()
+    {
 
         if ($this->day === self::$fridayString) {
             return self::$fridaySWE;
@@ -57,27 +62,11 @@ class Day
     }
 
     /**
+     * Add shows that takes place on the particular day.
      * @param $show \model\CinemaShow
      */
-    public function addShow($show){
+    public function addShow($show)
+    {
         $this->availableShows[] = $show;
     }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function getIsAvailable()
-//    {
-//        return $this->isAvailable;
-//    }
-//
-//    /**
-//     * @param bool $isAvailable
-//     */
-//    public function setIsAvailable($isAvailable)
-//    {
-//        $this->isAvailable = $isAvailable;
-//    }
-
-
 }

@@ -31,24 +31,65 @@ class DinnerScraper extends \scraper\Scraper
         $this->movieStartTime = intval($this->show->getTime());
     }
 
+    /**
+     * Add free tables that starts after the provided movie.
+     */
     public function addAvailableTablesToShow()
     {
 
         if ($this->dom->loadHTML($this->dinnerPage)) {
+
             $xpath = new \DOMXPath($this->dom);
-            //$test = $xpath->query("text()=".$this->day."");
+
+            // Tables that are not fully booked have type radio.
+            $tables = $xpath->query("//input[@type='radio']");
+
+            /* @var $table \DOMElement */
+            foreach ($tables as $table) {
+
+                $inputValue = $table->getAttribute('value');
+
+
+                // Remove all numbers to get day.
+                $day = preg_replace('/[0-9]+/', '', $inputValue);
+
+                // Remove all letters to get time only.
+                $timeString = preg_replace('/\D/', '', $inputValue);
+                // First two numbers is start hour.
+                $start = intval(substr($timeString, 0, -2));
+                // Last two numbers is end hour.
+                $end = intval(substr($timeString, 2));
+
+                d($this->day);
+                d($day);
+                d($timeString);
+                d($start);
+                ddd($end);
+
+
+
+            }
+
+
+
+
+            // Get span element for provided day.
             $spans = $xpath->query("//span[.='".$this->day."']");
-            //var_dump($test->item(0)->nodeValue);
-            //$tests = $xpath->query("//div[@class='WordSection3']");
+
+
+
+
+
+
 
             $firstDiv = $spans->item(0)->parentNode->parentNode->parentNode;
+
+
+
             /* @var $firstDiv \DOMElement */
             $secondDivClassName = $firstDiv->nextSibling->nextSibling->nextSibling->nextSibling->getAttribute("class");
-
             $reservationElement = $xpath->query("//div[@class='".$secondDivClassName."']//p");
-            // nodeValue = string(15) "14-16 Fullbokat"
-            // string(12) "18-20 Ledigt"
-            //var_dump($reservationElement);
+
 
             $dinnerTimes = array();
 
@@ -66,6 +107,7 @@ class DinnerScraper extends \scraper\Scraper
                 }
             }
 
+            // Movies length maximum 2 hours.
             $movieEndTime = $this->movieStartTime + 2;
 
             /* @var $dinnerTime \model\DinnerTime */
@@ -76,22 +118,10 @@ class DinnerScraper extends \scraper\Scraper
                     //$this->availableDinnerTimes[] = $dinnerTime;
                     $this->show->addAvailableTable($dinnerTime);
                 }
-//                // If movie starts after dinner.
-//                if ($this->movieStartTime >= $dinnerTime->getEndTime()) {
-//
-//                    //$this->availableDinnerTimes[] = $dinnerTime;
-//                    $this->show->addAvailableTable($dinnerTime);
-//                }
-                // If movie begins after dinner.
             }
 
-            ///ddd($this->availableDinnerTimes);
-
-
-
-
         } else {
-            // TODO: Kasta undantag.
+            throw new \Exception("Kunde inte läsa HTML på restaurangsidan.");
         }
     }
 

@@ -27,7 +27,10 @@ require_once("scrapers/DinnerBooker.php");
 // Controllers
 require_once("controllers/ApplicationController.php");
 
-require_once("../kint-master/Kint.class.php");
+
+if ($_SERVER['HTTP_HOST'] === "localhost:63342") {
+    require_once("../kint-master/Kint.class.php");
+}
 
 // Show errors.
 libxml_use_internal_errors(TRUE);

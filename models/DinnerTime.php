@@ -17,6 +17,12 @@ class DinnerTime
     private $endTime;
 
 
+    /**
+     * DinnerTime constructor.
+     * @param $day string Day that dinner takes place.
+     * @param $startTime int Time that dinner starts.
+     * @param $endTime int Time when dinner ends.
+     */
     public function __construct($day, $startTime, $endTime)
     {
         $this->day = $day;
@@ -24,34 +30,24 @@ class DinnerTime
         $this->endTime = $endTime;
     }
 
-
-    /**
-     * @return mixed
-     */
     public function getDay()
     {
         return $this->day;
     }
 
-
-    /**
-     * @return mixed
-     */
     public function getStartTime()
     {
         return $this->startTime;
     }
 
-    /**
-     * @return mixed
-     */
     public function getEndTime()
     {
         return $this->endTime;
     }
 
     /**
-     * @return string containing information to post to make reservation of table.
+     * @return string query-string containing day and time for reservation, info used to post dinner reservation.
+     * For example "lor1820"
      */
     public function getReservationQuery()
     {

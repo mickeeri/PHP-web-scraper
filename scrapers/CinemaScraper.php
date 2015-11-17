@@ -31,9 +31,13 @@ class CinemaScraper extends \scraper\Scraper
         $this->dom = new \DOMDocument();
     }
 
+    /**
+     * Add available shows to day.
+     * @throws \Exception
+     */
     public function addAvailableShowsToDay() {
 
-        // Get the select value of entered day.
+        // Get the HTML select option value of entered day.
         $daySelectValue = $this->getDaySelectValue();
 
         // Get all movies on that days page.
@@ -50,7 +54,7 @@ class CinemaScraper extends \scraper\Scraper
             foreach ($decodedResponse as $show) {
                 $status = $show->{"status"};
                 $time = $show->{"time"};
-                //$movieNumber = $show->{"movie"};
+                // Creates object with title, day, time and availability.
                 $show = new \model\CinemaShow($movie->getTitle(), $this->availableDay->getDayInSwedish(), $time, $status);
 
                 // Add show to day if available for everybody.
@@ -61,7 +65,12 @@ class CinemaScraper extends \scraper\Scraper
         }
     }
 
+    /**
+     * @return array with movies on particular day.
+     * @throws \Exception
+     */
     private function getMovies() {
+
         $movies = array();
 
         if ($this->dom->loadHTML($this->cinemaPage)) {
@@ -73,52 +82,36 @@ class CinemaScraper extends \scraper\Scraper
                 $movie = new \model\Movie($movieSelect->nodeValue, $movieSelect->getAttribute("value"));
                 $movies[] = $movie;
             }
+
+        } else {
+            throw new \Exception("Fel vid läsning av HTML på biosidan.");
         }
 
         return $movies;
     }
 
+    /**
+     * @return bool|string Select option value. For example Friday has value "01".
+     * @throws \Exception
+     */
     private function getDaySelectValue() {
+
         if ($this->dom->loadHTML($this->cinemaPage)) {
+
             $xpath = new \DOMXPath($this->dom);
             $daySelects = $xpath->query("//select[@name='day']//option[@value!='']");
 
             /* @var $daySelect \DOMElement */
             foreach ($daySelects as $daySelect) {
+
                 if ($daySelect->nodeValue === $this->availableDay->getDayInSwedish()) {
                     return $daySelect->getAttribute("value");
                 }
             }
+        } else {
+            throw new \Exception("Fel vid läsning av HTML på biosidan.");
         }
 
         return false;
     }
-
-//    private function getDays() {
-//
-//        $days = array();
-//
-//        if ($this->dom->loadHTML($this->cinemaPage)) {
-//            $xpath = new \DOMXPath($this->dom);
-//            $daySelects = $xpath->query("//select[@name='day']//option[@value!='']");
-//
-//            /* @var $daySelect \DOMElement */
-//            foreach ($daySelects as $daySelect) {
-//                // Check if day is available with $availableDays, result of scrape of calendars.
-//
-//                foreach ($this->getSwedishNameOfDays() as $availableDay) {
-//
-//                    if ($daySelect->nodeValue === $availableDay) {
-//
-//                        // Create new object.
-//                        $day = new \model\MovieDay($daySelect->nodeValue, $daySelect->getAttribute("value"));
-//                        // Add to array of days.
-//                        $days[] = $day;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $days;
-//    }
 }

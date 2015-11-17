@@ -10,6 +10,13 @@ class CinemaShow
     private $seatsAvailable = false;
     private $availableTables;
 
+    /**
+     * CinemaShow constructor.
+     * @param $movieTitle
+     * @param $day
+     * @param $time
+     * @param $seatsAvailable
+     */
     public function __construct($movieTitle, $day, $time, $seatsAvailable)
     {
         if ($seatsAvailable === 1) {
@@ -28,39 +35,34 @@ class CinemaShow
         return $this->seatsAvailable;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMovie()
     {
         return $this->movie;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDay()
     {
         return $this->day;
     }
 
-    /**
-     * @return mixed
-     */
     public function getTime()
     {
         return $this->time;
     }
 
-    public function addAvailableTable($dinnerTime) {
-        $this->availableTables[] = $dinnerTime;
-    }
-
-    /**
-     * @return array
-     */
     public function getAvailableTables()
     {
         return $this->availableTables;
     }
+
+
+    /**
+     * Add dinner times that are after the cinema show.
+     * @param $dinnerTime \model\DinnerTime
+     */
+    public function addAvailableTable($dinnerTime)
+    {
+        $this->availableTables[] = $dinnerTime;
+    }
+
 }

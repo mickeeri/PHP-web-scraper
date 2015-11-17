@@ -2,12 +2,16 @@
 
 namespace model;
 
-
 class Movie
 {
     private $title;
     private $selectValue;
 
+    /**
+     * Movie constructor.
+     * @param $title string Movie title
+     * @param $selectValue string value of HTML select field option.
+     */
     public function __construct($title, $selectValue)
     {
         $this->title = $title;
