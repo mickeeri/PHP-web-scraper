@@ -12,7 +12,11 @@ class ReservationView
         $this->response = $response;
     }
 
-    public function response() {
+    /**
+     * @return string confirmation of table reservation.
+     */
+    public function response()
+    {
         return
             '<div class="alert alert-success" role="alert">
                 <span class="sr-only">Success:</span>

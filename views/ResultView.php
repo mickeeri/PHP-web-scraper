@@ -32,7 +32,6 @@ class ResultView
 
     private function renderDays()
     {
-
         $ret = '';
 
         /* @var $day \model\Day */
@@ -56,17 +55,47 @@ class ResultView
     private function renderShows($day)
     {
         $list = '';
+        $ret = '';
+        $i = 1;
 
         /* @var $show \model\CinemaShow */
         foreach ($day->getShows() as $show) {
-            $list .= '<li class="list-group-item active"><strong>'.$show->getMovie().'</strong> visas kl '.$show->getTime().'</li>
-            <li class="list-group-item"><strong>Lediga bord på Zekes efter föreställningen</strong></li>
-            '.$this->renderAvailableTables($show).'
-            ';
+
+            // Renders info about show and available tables with help of bootstrap collapse.
+            $ret .=
+                '
+                <li class="list-group-item">
+                    <strong>'.$show->getMovie().'</strong> visas kl <strong>'.$show->getTime().'</strong>
+                    <a data-toggle="collapse" href="#availableTables'.$i.'"
+                    aria-expanded="false" aria-controls="availableTables'.$i.'">
+                        Visa lediga bord >>
+                    </a>
+                    <div class="collapse" id="availableTables'.$i.'">
+                        <div class="well">
+                            <strong>Lediga bord på Zekes efter föreställningen:</strong><br>
+                            '.$this->renderAvailableTables($show).'
+                        </div>
+                    </div>
+                </li>
+                ';
+
+            ++$i;
         }
 
-        return $list;
+
+//        /* @var $show \model\CinemaShow */
+//        foreach ($day->getShows() as $show) {
+//            $list .=
+//                '<li class="list-group-item"><strong>'.$show->getMovie().'</strong> visas kl '.$show->getTime().'
+//                <a href="?result&title='.$show->getMovie().'&time='.$show->getTime().'&day='.$show->getDay().'">Välj och boka bord</a></li>
+//                ';
+//        }
+        return $ret;
     }
+
+//
+//<li class="list-group-item"><strong>Lediga bord på Zekes efter föreställningen</strong></li>
+//'.$this->renderAvailableTables($show).'
 
 
     /**
@@ -79,13 +108,12 @@ class ResultView
         $tables = $show->getAvailableTables();
 
         if (empty($tables)) {
-            $ret .= '<li class="list-group-item">Inga lediga bord</li>';
+            $ret .= 'Inga lediga bord';
         } else {
             /* @var $table\model\DinnerTable */
             foreach ($tables as $table) {
-                $ret .= '<li class="list-group-item">
-                    '.$table->getStartTime().':00 - '.$table->getEndTime().':00.
-                    <a href="?book='.$table->getReservationQuery().'">Boka</a></li>';
+                $ret .= $table->getStartTime().':00 - '.$table->getEndTime().':00.
+                    <a href="?book='.$table->getReservationQuery().'">Boka</a><br>';
             }
         }
 

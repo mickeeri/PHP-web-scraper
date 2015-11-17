@@ -3,7 +3,6 @@
 // Models
 require_once("models/CalendarEntry.php");
 require_once("models/Person.php");
-require_once("models/MovieDay.php");
 require_once("models/Movie.php");
 require_once("models/CinemaShow.php");
 require_once("models/Day.php");
@@ -27,12 +26,12 @@ require_once("scrapers/DinnerBooker.php");
 // Controllers
 require_once("controllers/ApplicationController.php");
 
-
+// To show better var-dumps
 if ($_SERVER['HTTP_HOST'] === "localhost:63342") {
     require_once("../kint-master/Kint.class.php");
 }
 
-// Show errors.
+// Prevent warnings.
 libxml_use_internal_errors(TRUE);
 
 // Creating views and controllers.
@@ -44,5 +43,3 @@ $ac = new \controller\ApplicationController($av);
 $ac->handleInput();
 $view = $ac->generateOutput();
 $lv->render($view);
-
-// TODO: Validera HTML

@@ -43,10 +43,10 @@ class CinemaScraper extends \scraper\Scraper
         // Get all movies on that days page.
         $movies = $this->getMovies();
 
-        /* @var $day \model\MovieDay */
         /* @var $movie \model\Movie */
         foreach ($movies as $movie) {
 
+            // Get request with this query returns json that contains info about movie and availability.
             $request = "check?day=".$daySelectValue."&movie=".$movie->getSelectValue();
             $response = $this->curlGetRequest($this->cinemaURL.$request);
             $decodedResponse = json_decode($response);
@@ -91,7 +91,8 @@ class CinemaScraper extends \scraper\Scraper
     }
 
     /**
-     * @return bool|string Select option value. For example Friday has value "01".
+     * Gets the value of HTML select option element.
+     * @return string Select option value. For example Friday has value "01".
      * @throws \Exception
      */
     private function getDaySelectValue() {
@@ -111,7 +112,5 @@ class CinemaScraper extends \scraper\Scraper
         } else {
             throw new \Exception("Fel vid läsning av HTML på biosidan.");
         }
-
-        return false;
     }
 }

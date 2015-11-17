@@ -2,6 +2,8 @@
 
 namespace controller;
 
+use view\ReservationView;
+
 class ApplicationController
 {
     private $appView;
@@ -16,9 +18,11 @@ class ApplicationController
         $this->appView = $av;
     }
 
+    /**
+     * Based on URL this methods assigns view to $this->view.
+     */
     public function handleInput()
     {
-
         // User wants to see result of scrape.
         if ($this->appView->onScrapeResultPage()) {
 
@@ -59,7 +63,7 @@ class ApplicationController
                 $query = $this->appView->getReservationTime();
                 $db = new \scraper\DinnerBooker($url);
                 // Get and display response to booking.
-                $response = $db->curlPostRequest($query);
+                $response = $db->postDinnerReservation($query);
                 $this->view = new \view\ReservationView($response);
             } catch (\Exception $e) {
                 $this->view = new \view\ErrorView($e->getMessage());

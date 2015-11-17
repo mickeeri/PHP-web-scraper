@@ -6,14 +6,10 @@ namespace scraper;
 class DinnerScraper extends \scraper\Scraper
 {
     private $dinnerURL;
-    private $show;
     private $dom;
     private $dinnerPage;
     private static $dinnerPath = "dinner/";
     private $day;
-    private $movieStartTime;
-    private $availableDinnerTimes;
-
 
     /**
      * DinnerScraper constructor.
@@ -23,18 +19,15 @@ class DinnerScraper extends \scraper\Scraper
     public function __construct($url, $day)
     {
         $this->dinnerURL = $url.self::$dinnerPath;
-        //$this->show = $show;
         $this->day = $day;
         $this->dinnerPage = $this->curlGetRequest($this->dinnerURL);
         $this->dom = new \DOMDocument();
-        $this->availableDinnerTimes = array();
-        //$this->movieStartTime = intval($this->show->getTime());
     }
 
     /**
-     * Add free tables that starts after the provided movie.
-     * @param $day \model\Day
+     * Checks for available tables on certain day.
      * @throws \Exception
+     * @internal param \model\Day $day
      */
     public function scrapeDinnerPage()
     {
@@ -55,7 +48,6 @@ class DinnerScraper extends \scraper\Scraper
 
                 // Remove all numbers to get day.
                 $inputDay = preg_replace('/[0-9]+/', '', $inputValue);
-
                 // Remove all letters to get time only.
                 $timeString = preg_replace('/\D/', '', $inputValue);
                 // First two numbers is start hour.
@@ -71,7 +63,7 @@ class DinnerScraper extends \scraper\Scraper
                 }
             }
 
-            // Check if dinner time is after show.
+            // Calls method to check and add table to show.
             foreach ($tablesAvailableOnDay as $availableTable) {
                 $this->checkAndAddTableToShow($availableTable);
             }
@@ -81,28 +73,8 @@ class DinnerScraper extends \scraper\Scraper
         }
     }
 
-//
-//    /**
-//     * @param $table \model\DinnerTable
-//     * @param $shows array
-//     */
-//    public function findAndAddTablesAfterShow($table, $shows)
-//    {
-//        /** @var \model\CinemaShow $show */
-//        foreach ($shows as $show) {
-//
-//            $movieEndHour = $show->getTime() + 2;
-//
-//            // If dinnertime starts after movie.
-//            if ($table->getStartTime() >= $movieEndHour) {
-//                // Add table to show-object.
-//                $show->addAvailableTable($table);
-//            }
-//        }
-//    }
-
     /**
-     * Adds table to show if it is after the movie has ended.
+     * Check if available table is after movie show. In that case adds them to show object.
      * @param $table \model\DinnerTable
      */
     private function checkAndAddTableToShow($table)
@@ -110,7 +82,7 @@ class DinnerScraper extends \scraper\Scraper
         /** @var \model\CinemaShow $show */
         foreach ($this->day->getShows() as $show) {
             // Movie is at the most two hours.
-            $movieEndHour = $show->getTime() + 2;
+            $movieEndHour = intval($show->getTime()) + 2;
 
             // If dinnertime starts after movie.
             if ($table->getStartTime() >= $movieEndHour) {

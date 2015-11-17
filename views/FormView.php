@@ -7,14 +7,18 @@ class FormView
     private static $urlInputID = "url";
     private static $submitPostID = "submit";
     private $errorMessage = "";
-    private static $defaultURL = "http://localhost:8080/";
+    private $defaultURL;
 
     /**
      * FormView constructor.
      */
     public function __construct()
     {
-
+        if ($_SERVER['HTTP_HOST'] === "localhost:63342") {
+            $this->defaultURL = "http://localhost:8080/";
+        } else {
+            $this->defaultURL = "http://46.101.232.43/";
+        }
     }
 
     public function response()
@@ -28,10 +32,10 @@ class FormView
         ''.$this->getMessage().'
         <form class="form-inline" method="post">
             <div class="form-group">
-                <label for="'.self::$urlInputID.'">Ange URL: </label>
-                <input type="text" value="'.self::$defaultURL.'" name="'.self::$urlInputID.'">
+                <label for="urlinput">Ange URL: </label>
+                <input id="urlinput" type="text" value="'.$this->defaultURL.'" name="'.self::$urlInputID.'">
             </div>
-            <input class="btn btn-primary" type="submit" value="Skicka"
+            <input id="sendurl" class="btn btn-primary" type="submit" value="Skicka"
             data-loading-text="Skickar..." name="'.self::$submitPostID.'">
         </form>';
 
@@ -41,13 +45,18 @@ class FormView
     /**
      * @return bool true if user has pressed form submit button.
      */
-    public function userWantsToSubmitURL() {
-
+    public function userWantsToSubmitURL()
+    {
         return isset($_POST[self::$submitPostID]);
     }
 
-    public function getSubmittedURL() {
+    /**
+     * @return null|$url string posted url
+     */
+    public function getSubmittedURL()
+    {
         $url = $_POST[self::$urlInputID];
+
         if ($url === "") {
             $this->errorMessage = "Fältet får inte vara tomt";
             return null;
@@ -56,6 +65,10 @@ class FormView
         }
     }
 
+
+    /**
+     * @return string div element with error message.
+     */
     private function getMessage()
     {
         if ($this->errorMessage !== "") {
@@ -66,5 +79,7 @@ class FormView
                     ' . $this->errorMessage . '
                 </div>';
         }
+
+        return "";
     }
 }

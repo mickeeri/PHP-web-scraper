@@ -12,10 +12,10 @@ class CinemaShow
 
     /**
      * CinemaShow constructor.
-     * @param $movieTitle
-     * @param $day
-     * @param $time
-     * @param $seatsAvailable
+     * @param $movieTitle string
+     * @param $day string
+     * @param $time string for example "16:00"
+     * @param $seatsAvailable int value from JSON string. 0 = fully booked. 1 = available.
      */
     public function __construct($movieTitle, $day, $time, $seatsAvailable)
     {

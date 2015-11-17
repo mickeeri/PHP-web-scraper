@@ -1,5 +1,5 @@
 
-$('.btn').on('click', function() {
+$('#sendurl').on('click', function() {
     var $this = $(this);
     $this.button('loading');
 });

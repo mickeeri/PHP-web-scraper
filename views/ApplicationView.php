@@ -7,23 +7,44 @@ class ApplicationView
     private static $resultQueryString = "result";
     private static $URLCookieName = "url";
     private static $bookTableURL = "book";
-    /**
-     * ApplicationView constructor.
-     */
-    public function __construct()
-    {
-    }
+//    private static $titleQueryString = "title";
+//    private static $timeQueryString = "time";
+//    private static $dayQueryString = "day";
 
-    public function wantsTooBookTable() {
+    public function wantsTooBookTable()
+    {
         return isset($_GET[self::$bookTableURL]);
     }
+
+//    public function wantsToSeeAvailableTables()
+//    {
+//        if (isset($_GET[self::$titleQueryString]) && isset($_GET[self::$timeQueryString]) &&
+//        isset($_GET[self::$dayQueryString])) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     public function onScrapeResultPage()
     {
         return isset($_GET[self::$resultQueryString]);
     }
 
-    public function getReservationTime() {
+//    /**
+//     * Provides info to show on table reservation page.
+//     */
+//    public function getInfoForReservation()
+//    {
+//        $movieTitle = $_GET[self::$titleQueryString];
+//        $time = $_GET[self::$timeQueryString];
+//        $day = $_GET[self::$dayQueryString];
+//
+//        return new \model\CinemaShow($movieTitle, $day, $time, 1);
+//    }
+
+    public function getReservationTime()
+    {
         return $_GET[self::$bookTableURL];
     }
 
@@ -35,6 +56,10 @@ class ApplicationView
         exit();
     }
 
+    /**
+     * Saves url to be used after post.
+     * @param $url
+     */
     public function saveURLInCookie($url)
     {
         setcookie(self::$URLCookieName, $url, -1);
@@ -53,11 +78,5 @@ class ApplicationView
         }
 
         return $ret;
-    }
-
-    public function getCurrentURL()
-    {
-        $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        return $_SERVER["HTTP_HOST"].$uri;
     }
 }
