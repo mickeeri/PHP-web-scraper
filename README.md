@@ -36,3 +36,6 @@ Robots.txt ligger i roten på domänen och tillhandahåller regler om vad en bot
 - Seriefigur: Arne anka
 - Tidning: Söndags-Nisse
 - Fotbollslag: Arsenal
+
+## Publicerad version av applikationen
+[Nås här](http://me222wm.se/1dv449_laboration1/)
