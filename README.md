@@ -31,7 +31,7 @@ Skrapan går igenom länkarna för kalendrarna en och en. Namnen är inte hårdk
 ## Vad kan robots.txt spela för roll?
 Robots.txt ligger i roten på domänen och tillhandahåller regler om vad en bot får göra och var den får gå. Som wikipedia-artikeln hävdar kan robots.txt användas för att blockera en bot utifrån dess user agent string.
 
-### Kuriosa
+## Kuriosa
 - Musikgrupp: Peter, Paul and Mary
 - Seriefigur: Arne anka
 - Tidning: Söndags-Nisse
