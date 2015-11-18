@@ -22,7 +22,8 @@ class CalendarScraper extends \scraper\Scraper {
      * @return array with days that are available for everybody.
      * @throws \Exception
      */
-    public function scrapeCalendars() {
+    public function scrapeCalendars()
+    {
         // 1. Get data on calendar page with curl.
         $calendarsPage = $this->curlGetRequest($this->calendarURL);
         // 2. Get href to all the calendars on that page.
@@ -39,7 +40,8 @@ class CalendarScraper extends \scraper\Scraper {
      * @return array $calendarPages paths to different calendars.
      * @throws \Exception
      */
-    private function getCalendarPaths($data) {
+    private function getCalendarPaths($data)
+    {
 
         $calendarPages = array();
 
@@ -64,7 +66,8 @@ class CalendarScraper extends \scraper\Scraper {
      * @param array $calendarPaths url paths to all the calendars.
      * @return array $calendarOwners list of all the owners and calendar entries.
      */
-    private function getCalendarInfo($calendarPaths) {
+    private function getCalendarInfo($calendarPaths)
+    {
 
         $enteredURL = $this->calendarURL;
         $calendarOwners = array();
@@ -85,7 +88,8 @@ class CalendarScraper extends \scraper\Scraper {
      * @return \model\Person $person calendar owner with entries and availability.
      * @throws \Exception
      */
-    private function getCalendar($page) {
+    private function getCalendar($page)
+    {
 
         if ($this->dom->loadHTML($page)) {
 
@@ -130,7 +134,8 @@ class CalendarScraper extends \scraper\Scraper {
      * @param array $persons containing Person objects.
      * @return array
      */
-    private function findAvailableDay($persons) {
+    private function findAvailableDay($persons)
+    {
 
         // As default availability is set to true, but changes to false if one of
         // the members isn't available on a particular day.

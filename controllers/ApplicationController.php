@@ -42,7 +42,7 @@ class ApplicationController
                     $cinemaScraper->addAvailableShowsToDay();
 
                     // Scrapes restaurant page to find available tables for current day, and
-                    // then adds table to days movie-shows if they are after show.
+                    // then adds table to the CinemaShows-objects.
                     $ds = new \scraper\DinnerScraper($url, $availableDay);
                     $ds->scrapeDinnerPage();
                 }
@@ -58,7 +58,7 @@ class ApplicationController
         elseif ($this->appView->wantsTooBookTable()) {
 
             try {
-                $url = $this->appView->getURLFromCookie(false);
+                $url = $this->appView->getURLFromCookie(true);
                 // Get time and day for reservation from by GET.
                 $query = $this->appView->getReservationTime();
                 $db = new \scraper\DinnerBooker($url);

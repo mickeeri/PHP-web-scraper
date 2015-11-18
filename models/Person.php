@@ -11,11 +11,13 @@ class Person {
      * Person constructor.
      * @param $name string
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->name = $name;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -23,14 +25,16 @@ class Person {
      * Add calendar entry to person.
      * @param CalendarEntry $entry
      */
-    public function addCalendarEntry(\model\CalendarEntry $entry) {
+    public function addCalendarEntry(\model\CalendarEntry $entry)
+    {
         $this->calendarEntries[] = $entry;
     }
 
     /**
      * @return array
      */
-    public  function getCalendarEntries() {
+    public  function getCalendarEntries()
+    {
         return $this->calendarEntries;
     }
 }

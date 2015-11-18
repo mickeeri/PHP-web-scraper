@@ -18,11 +18,13 @@ class Movie
         $this->selectValue = $selectValue;
     }
 
-    public function getSelectValue() {
+    public function getSelectValue()
+    {
         return $this->selectValue;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 

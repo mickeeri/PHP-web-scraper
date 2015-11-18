@@ -2,7 +2,8 @@
 
 namespace model;
 
-class CalendarEntry {
+class CalendarEntry
+{
 
     private $day;
     private $isAvailable;

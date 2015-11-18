@@ -35,7 +35,8 @@ class CinemaScraper extends \scraper\Scraper
      * Add available shows to day.
      * @throws \Exception
      */
-    public function addAvailableShowsToDay() {
+    public function addAvailableShowsToDay()
+    {
 
         // Get the HTML select option value of entered day.
         $daySelectValue = $this->getDaySelectValue();
@@ -69,7 +70,8 @@ class CinemaScraper extends \scraper\Scraper
      * @return array with movies on particular day.
      * @throws \Exception
      */
-    private function getMovies() {
+    private function getMovies()
+    {
 
         $movies = array();
 
@@ -95,7 +97,8 @@ class CinemaScraper extends \scraper\Scraper
      * @return string Select option value. For example Friday has value "01".
      * @throws \Exception
      */
-    private function getDaySelectValue() {
+    private function getDaySelectValue()
+    {
 
         if ($this->dom->loadHTML($this->cinemaPage)) {
 

@@ -23,7 +23,7 @@ class ReservationView
                 '.$this->response.'
             </div>
 
-            <a href="?">Tillbaka till start</a>
+            <a href="?result"><< Tillbaka</a>
 
             ';
     }
