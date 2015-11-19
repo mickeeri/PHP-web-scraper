@@ -62,11 +62,11 @@ class ResultView
             $ret .=
                 '<li class="list-group-item">
                     <strong>'.$show->getMovie().'</strong> visas kl <strong>'.$show->getTime().'</strong>
-                    <a data-toggle="collapse" href="#availableTables'.$i.'"
-                    aria-expanded="false" aria-controls="availableTables'.$i.'">
+                    <a data-toggle="collapse" href="#availableTables'.$show->getDay().$i.'"
+                    aria-expanded="false" aria-controls="availableTables'.$show->getDay().$i.'">
                         Visa lediga bord >>
                     </a>
-                    <div class="collapse" id="availableTables'.$i.'">
+                    <div class="collapse" id="availableTables'.$show->getDay().$i.'">
                         <div class="well">
                             <strong>Lediga bord på Zekes efter föreställningen:</strong><br>
                             '.$this->renderAvailableTables($show).'
